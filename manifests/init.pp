@@ -3,6 +3,7 @@ class puppet-yum-nginx-api (
   $deploy_path   = '/opt/yum-nginx-api/yumapi',
   $log_path      = '/var/log/nginx/yumapi.log',
   $base_dir      = '/opt',
+  $repo_dir      = '/opt/repos',
   $upload_dir    = '/opt/repos/pre-release',
   ) {
 
@@ -32,7 +33,7 @@ class puppet-yum-nginx-api (
       require  => Package['python-pip'],
   }
 
-  file { '/opt/repos':
+  file { $repo_dir:
     ensure => directory,
     mode   => '0755',
   }
@@ -40,7 +41,7 @@ class puppet-yum-nginx-api (
   file { $upload_dir:
     ensure  => directory,
     mode    => '0755',
-    require => File['/opt/repos'],
+    require => File[$repo_dir],
   }
 
   file { '/etc/nginx/mime.types':
