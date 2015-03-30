@@ -8,11 +8,12 @@ class puppet-yum-nginx-api (
   $upload_dir    = '/opt/repos/pre-release',
   ) {
 
+  # Require NGINX setup before installing yum-nginx-api
   require puppet-yum-nginx-api::nginx
 
+  # Install rpms needed for runtime and build of python packages
   package {
     [
-    'python-pip',
     'supervisor',
     'gcc',
     'createrepo',
@@ -21,6 +22,7 @@ class puppet-yum-nginx-api (
       ensure => installed,
   }
 
+  # Install Python pip packages
   package {
     [
     'Flask',
@@ -31,7 +33,6 @@ class puppet-yum-nginx-api (
     ]:
       ensure   => installed,
       provider => pip,
-      require  => Package['python-pip'],
   }
 
   file { $repo_dir:
@@ -56,6 +57,7 @@ class puppet-yum-nginx-api (
     require => Package['supervisor'],
   }
 
+  # Install git repo into git directory
   vcsrepo { $git_dir:
     ensure   => latest,
     provider => git,
@@ -64,11 +66,13 @@ class puppet-yum-nginx-api (
     require  => Package['supervisor'],
   }
 
+  # Manage Python supervisor daemon
   service { 'supervisord':
     ensure     => running,
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
+    subscribe  => File['/etc/supervisord.conf'],
     require    => File['/etc/supervisord.conf'],
   }
 }
