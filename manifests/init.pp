@@ -1,5 +1,6 @@
 class puppet-yum-nginx-api (
   $gunicorn_port = '8888',
+  $git_dir       = '/opt/yum-nginx-api',
   $deploy_path   = '/opt/yum-nginx-api/yumapi',
   $log_path      = '/var/log/nginx/yumapi.log',
   $base_dir      = '/opt',
@@ -61,7 +62,7 @@ class puppet-yum-nginx-api (
     require => Package['supervisor'],
   }
 
-  vcsrepo { $base_dir:
+  vcsrepo { $git_dir:
     ensure   => latest,
     provider => git,
     source   => 'https://github.com/FINRAOS/yum-nginx-api.git',
@@ -69,7 +70,7 @@ class puppet-yum-nginx-api (
     require  => Package['supervisor'],
   }
 
-  service { 'supervisor':
+  service { 'supervisord':
     ensure     => running,
     enable     => true,
     hasrestart => true,

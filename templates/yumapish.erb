@@ -11,15 +11,15 @@
 #  limitations under the License.
 
 NAME=yumapi
-FLASKDIR=<%= deploy_path %>
+FLASKDIR=<%= @deploy_path %>
 USER=root
 GROUP=root
 NUM_WORKERS=2
 
-cd <%= base_dir %>
+cd <%= @base_dir %>
 
 # Start your unicorn
-gunicorn yumapi:app -b 0.0.0.0:<%= gunicorn_port %> \
+gunicorn yumapi:app -b 0.0.0.0:<%= @gunicorn_port %> \
   --name $NAME \
   --workers $NUM_WORKERS \
   --user=$USER --group=$GROUP \
