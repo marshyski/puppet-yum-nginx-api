@@ -1,5 +1,5 @@
 {
-  "name": "marshyski-puppet-yum-nginx-api",
+  "name": "marshyski-puppet_yum_nginx_api",
   "version": "0.1.0",
   "author": "Tim Ski",
   "summary": "Puppet Module for yum-nginx-api https://github.com/FINRAOS/yum-nginx-api",
@@ -11,11 +11,11 @@
     {
       "name": "puppetlabs-vcsrepo",
       "version_range": "1.2.0"
-    }
+    },
     {
       "name": "stankevich-python",
       "version_range": "1.9.1"
-    }
+    },
     {
       "name": "stahnma-epel",
       "version_range": "1.0.2"
