@@ -1,8 +1,8 @@
 [program:yumapi]
-command = <%= deploy_path %>/yumapi.sh
+command = <%= @deploy_path %>/yumapi.sh
 priority=1
 user = root
-stdout_logfile = <%= log_path %>
+stdout_logfile = <%= @log_path %>
 redirect_stderr = true
 autostart = true
 autorestart = true
