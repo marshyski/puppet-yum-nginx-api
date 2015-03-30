@@ -57,7 +57,7 @@ class puppet-yum-nginx-api (
 
   file { '/etc/supervisord.conf':
     ensure  => present,
-    content => template('puppet-yum-nginx-api/supervisord.erb'),
+    content => template('puppet-yum-nginx-api/supervisor.erb'),
     require => Package['supervisor'],
   }
 
