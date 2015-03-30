@@ -6,11 +6,3 @@ stdout_logfile = <%= @log_path %>
 redirect_stderr = true
 autostart = true
 autorestart = true
-
-[program:nginx]
-command = /sbin/nginx -c /etc/nginx/nginx.conf
-priority=2
-user = root
-redirect_stderr = true
-autostart = true
-autorestart = true
