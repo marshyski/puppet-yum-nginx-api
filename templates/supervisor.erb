@@ -12,3 +12,12 @@ serverurl=unix:///var/run/supervisor.sock ; use a unix:// URL  for a unix socket
 
 [include]
 files = /etc/supervisord.d/*.conf
+
+[program:yumapi]
+command = <%= @deploy_path %>/yumapi.sh
+priority= 1
+user = root
+stdout_logfile = <%= @log_path %>
+redirect_stderr = true
+autostart = true
+autorestart = true

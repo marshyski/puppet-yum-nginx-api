@@ -50,12 +50,6 @@ class puppet-yum-nginx-api (
     content => template('puppet-yum-nginx-api/mime.erb'),
   }
 
-  file { '/etc/supervisord.d/yumapi.conf':
-    ensure  => present,
-    content => template('puppet-yum-nginx-api/yumapi.erb'),
-    require => Package['supervisor'],
-  }
-
   file { '/etc/supervisord.conf':
     ensure  => present,
     content => template('puppet-yum-nginx-api/supervisor.erb'),
@@ -75,6 +69,6 @@ class puppet-yum-nginx-api (
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
-    require    => [File['/etc/supervisord.conf'],File['/etc/supervisord.d/yumapi.conf']],
+    require    => File['/etc/supervisord.conf'],
   }
 }
