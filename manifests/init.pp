@@ -70,7 +70,7 @@ class puppet-yum-nginx-api (
   }
 
   service { 'supervisor':
-    ensure     => started,
+    ensure     => running,
     enable     => true,
     hasrestart => true,
     hasstatus  => true,
