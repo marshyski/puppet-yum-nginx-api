@@ -1,3 +1,15 @@
+# == Class: puppet-yum-nginx-api
+#
+# This module gets you setup with yum-nginx-api, and is completely extensible if want to manage yum repos with NGINX web server.
+#
+# === Authors
+#
+# Tim Ski <marshyski@gmail.com>
+#
+# === Copyright
+#
+# Copyright 2014 Tim Ski
+#
 class puppet-yum-nginx-api (
   $gunicorn_port = '8888',
   $git_dir       = '/opt/yum-nginx-api',
