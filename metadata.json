@@ -1,0 +1,24 @@
+{
+  "name": "marshyski-puppet-yum-nginx-api",
+  "version": "0.1.0",
+  "author": "Tim Ski",
+  "summary": "Puppet Module for yum-nginx-api https://github.com/FINRAOS/yum-nginx-api",
+  "license": "Apache 2.0",
+  "source": "https://github.com/marshyski/puppet-yum-nginx-api",
+  "project_page": "https://github.com/marshyski/puppet-yum-nginx-api",
+  "issues_url": "https://github.com/marshyski/puppet-yum-nginx-api/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs-vcsrepo",
+      "version_range": "1.2.0"
+    }
+    {
+      "name": "stankevich-python",
+      "version_range": "1.9.1"
+    }
+    {
+      "name": "stahnma-epel",
+      "version_range": "1.0.2"
+    }
+  ]
+}
