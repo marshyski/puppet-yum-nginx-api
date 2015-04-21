@@ -15,6 +15,7 @@ This module gets you setup with *yum-nginx-api*, and is completely extensible if
     puppet module install puppetlabs-vcsrepo
     puppet module install stankevich-python
     puppet module install stahnma-epel
+    puppet module install puppetlabs-git
 
 ----------
 
