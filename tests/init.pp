@@ -1,1 +1,1 @@
-include puppet-yum-nginx-api
+include puppet_yum_nginx_api

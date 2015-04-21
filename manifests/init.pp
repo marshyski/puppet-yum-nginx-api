@@ -1,4 +1,4 @@
-# == Class: puppet-yum-nginx-api
+# == Class: puppet_yum_nginx_api
 #
 # This module gets you setup with yum-nginx-api, and is completely extensible if want to manage yum repos with NGINX web server.
 #
@@ -10,7 +10,7 @@
 #
 # Copyright 2014 Tim Ski
 #
-class puppet-yum-nginx-api (
+class puppet_yum_nginx_api (
   $gunicorn_port = '8888',
   $git_dir       = '/opt/yum-nginx-api',
   $deploy_path   = '/opt/yum-nginx-api/yumapi',
@@ -21,7 +21,7 @@ class puppet-yum-nginx-api (
   ) {
 
   # Require NGINX setup before installing yum-nginx-api
-  require puppet-yum-nginx-api::nginx
+  require puppet_yum_nginx_api::nginx
 
   # Install rpms needed for runtime and build of python packages
   package {
@@ -60,12 +60,12 @@ class puppet-yum-nginx-api (
 
   file { '/etc/nginx/mime.types':
     ensure  => present,
-    content => template('puppet-yum-nginx-api/mime.erb'),
+    content => template('puppet_yum_nginx_api/mime.erb'),
   }
 
   file { '/etc/supervisord.conf':
     ensure  => present,
-    content => template('puppet-yum-nginx-api/supervisor.erb'),
+    content => template('puppet_yum_nginx_api/supervisor.erb'),
     require => Package['supervisor'],
   }
 

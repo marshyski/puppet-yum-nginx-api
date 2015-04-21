@@ -1,4 +1,4 @@
-# == Class: puppet-yum-nginx-api
+# == Class: puppet_yum_nginx_api
 #
 # This module gets you setup with yum-nginx-api, and is completely extensible if want to manage yum repos with NGINX web server.
 #
@@ -10,7 +10,7 @@
 #
 # Copyright 2014 Tim Ski
 #
-class puppet-yum-nginx-api::nginx (
+class puppet_yum_nginx_api::nginx (
   $nginx_ver    = 'latest',
   $nginx_port   = '80',
   $nginx_user   = 'nginx',
@@ -27,7 +27,7 @@ class puppet-yum-nginx-api::nginx (
     owner   => root,
     group   => root,
     mode    => '0644',
-    content => template('puppet-yum-nginx-api/security_limits.conf'),
+    content => template('puppet_yum_nginx_api/security_limits.conf'),
     require => Package['nginx'],
   }
 
@@ -85,7 +85,7 @@ class puppet-yum-nginx-api::nginx (
     owner   => nginx,
     group   => nginx,
     mode    => '0644',
-    content => template('puppet-yum-nginx-api/nginx.erb'),
+    content => template('puppet_yum_nginx_api/nginx.erb'),
     notify  => Service['nginx'],
     require => Package['nginx'],
   }
@@ -96,7 +96,7 @@ class puppet-yum-nginx-api::nginx (
     owner   => root,
     group   => root,
     mode    => '0644',
-    content => template('puppet-yum-nginx-api/nginx'),
+    content => template('puppet_yum_nginx_api/nginx'),
     require => Package['nginx'],
   }
 
