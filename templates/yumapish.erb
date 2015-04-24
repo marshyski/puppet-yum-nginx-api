@@ -16,7 +16,7 @@ USER=root
 GROUP=root
 NUM_WORKERS=2
 
-cd <%= @base_dir %>
+cd <%= @git_dir %>
 
 # Start your unicorn
 gunicorn yumapi:app -b 0.0.0.0:<%= @gunicorn_port %> \
