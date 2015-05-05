@@ -26,6 +26,7 @@ http {
     access_log  /var/log/nginx/access.log  main;
 
     sendfile       off;
+    server_tokens  off;
     tcp_nopush     on;
     keepalive_timeout  80;
     tcp_nodelay        off;
@@ -83,7 +84,7 @@ http {
             access_log off;
         }
         
-        location = /(.git|.svn) {
+        location = /(.git|.svn|README.md|README) {
            deny all;
            log_not_found off;
            access_log off;
