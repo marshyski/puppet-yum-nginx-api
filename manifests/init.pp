@@ -20,8 +20,9 @@ class puppet_yum_nginx_api (
   $upload_dir    = '/opt/repos/pre-release',
   ) {
 
-  # Require NGINX setup before installing yum-nginx-api
+  # Require NGINX and git setup before installing yum-nginx-api
   require puppet_yum_nginx_api::nginx
+  require git
 
   # Install rpms needed for runtime and build of python packages
   package {
@@ -30,21 +31,16 @@ class puppet_yum_nginx_api (
     'gcc',
     'createrepo',
     'python-setuptools',
+    'python-pip',
     ]:
       ensure => installed,
   }
 
   # Install Python pip packages
-  package {
-    [
-    'Flask',
-    'Werkzeug',
-    'gunicorn',
-    'python-magic',
-    'SQLAlchemy',
-    ]:
-      ensure   => installed,
-      provider => pip,
+  exec {'pip install':
+    command => '/usr/bin/pip install Flask Werkzeug gunicorn python-magic SQLAlchemy',
+    unless  => '/usr/bin/pip freeze | grep -i flask',
+    require => Package['python-pip'],
   }
 
   file { $repo_dir:
@@ -78,6 +74,13 @@ class puppet_yum_nginx_api (
     require  => Package['supervisor'],
   }
 
+  # Manage gunicorn bash script
+  file { '/opt/yum-nginx-api/yumapi/yumapi.sh':
+    ensure  => present,
+    content => template('puppet_yum_nginx_api/yumapish.erb'),
+    require => Vcsrepo["$git_dir"],
+  }
+
   # Manage Python supervisor daemon
   service { 'supervisord':
     ensure     => running,
@@ -85,6 +88,6 @@ class puppet_yum_nginx_api (
     hasrestart => true,
     hasstatus  => true,
     subscribe  => File['/etc/supervisord.conf'],
-    require    => File['/etc/supervisord.conf'],
+    require    => [File['/etc/supervisord.conf'], Exec['pip install']],
   }
 }

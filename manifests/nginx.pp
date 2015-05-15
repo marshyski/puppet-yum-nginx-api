@@ -16,6 +16,8 @@ class puppet_yum_nginx_api::nginx (
   $nginx_user   = 'nginx',
   $nginx_group  = 'nginx',){
 
+  require epel
+
 # Install NGINX from EPEL
   package { 'nginx':
     ensure  => $nginx_ver,
