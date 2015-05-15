@@ -20,9 +20,15 @@ class puppet_yum_nginx_api (
   $upload_dir    = '/opt/repos/pre-release',
   ) {
 
-  # Require NGINX and git setup before installing yum-nginx-api
+  # Require NGINX setup before installing yum-nginx-api
   require puppet_yum_nginx_api::nginx
   require git
+
+  # Set SELINUX to permissive
+  exec {'selinux permissive':
+    command => '/usr/sbin/setenforce 0',
+    unless  => '/usr/sbin/getenforce | grep -i permissive',
+  }
 
   # Install rpms needed for runtime and build of python packages
   package {
@@ -33,7 +39,8 @@ class puppet_yum_nginx_api (
     'python-setuptools',
     'python-pip',
     ]:
-      ensure => installed,
+      ensure  => installed,
+      require => Exec['selinux permissive'],
   }
 
   # Install Python pip packages
@@ -74,7 +81,6 @@ class puppet_yum_nginx_api (
     require  => Package['supervisor'],
   }
 
-  # Manage gunicorn bash script
   file { '/opt/yum-nginx-api/yumapi/yumapi.sh':
     ensure  => present,
     content => template('puppet_yum_nginx_api/yumapish.erb'),
