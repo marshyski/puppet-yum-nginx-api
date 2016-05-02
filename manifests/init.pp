@@ -22,13 +22,6 @@ class puppet_yum_nginx_api (
 
   # Require NGINX setup before installing yum-nginx-api
   require puppet_yum_nginx_api::nginx
-  require git
-
-  # Set SELINUX to permissive
-  exec {'selinux permissive':
-    command => '/usr/sbin/setenforce 0',
-    unless  => '/usr/sbin/getenforce | grep -i permissive',
-  }
 
   # Install rpms needed for runtime and build of python packages
   package {
@@ -37,17 +30,21 @@ class puppet_yum_nginx_api (
     'gcc',
     'createrepo',
     'python-setuptools',
-    'python-pip',
     ]:
-      ensure  => installed,
-      require => Exec['selinux permissive'],
+      ensure => installed,
   }
 
   # Install Python pip packages
-  exec {'pip install':
-    command => '/usr/bin/pip install Flask Werkzeug gunicorn python-magic SQLAlchemy',
-    unless  => '/usr/bin/pip freeze | grep -i flask',
-    require => Package['python-pip'],
+  package {
+    [
+    'Flask',
+    'Werkzeug',
+    'gunicorn',
+    'python-magic',
+    'SQLAlchemy',
+    ]:
+      ensure   => installed,
+      provider => pip,
   }
 
   file { $repo_dir:
@@ -81,12 +78,6 @@ class puppet_yum_nginx_api (
     require  => Package['supervisor'],
   }
 
-  file { '/opt/yum-nginx-api/yumapi/yumapi.sh':
-    ensure  => present,
-    content => template('puppet_yum_nginx_api/yumapish.erb'),
-    require => Vcsrepo["$git_dir"],
-  }
-
   # Manage Python supervisor daemon
   service { 'supervisord':
     ensure     => running,
@@ -94,6 +85,6 @@ class puppet_yum_nginx_api (
     hasrestart => true,
     hasstatus  => true,
     subscribe  => File['/etc/supervisord.conf'],
-    require    => [File['/etc/supervisord.conf'], Exec['pip install']],
+    require    => File['/etc/supervisord.conf'],
   }
 }
